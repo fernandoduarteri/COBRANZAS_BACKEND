@@ -48,6 +48,9 @@ public abstract class JPAEntity<T> {
 			log.info("Metodo create Exception: " + e);
 			throw new Exception(e.getMessage());
 		}
+		finally {
+			em.close();
+		}
 	}
 
 	public void edit(T entity) throws Exception {
