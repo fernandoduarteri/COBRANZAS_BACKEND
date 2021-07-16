@@ -2,7 +2,7 @@ package ws;
 
 import java.util.Set;
 
-@javax.ws.rs.ApplicationPath("gs1wsedi")
+@javax.ws.rs.ApplicationPath("cobranzas")
 public class ApplicationConfig extends javax.ws.rs.core.Application {
 	
 	 @Override
