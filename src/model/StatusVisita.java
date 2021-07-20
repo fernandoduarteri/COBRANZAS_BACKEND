@@ -23,6 +23,8 @@ public class StatusVisita implements Serializable {
 	private Timestamp fecha;
 
 	private String status;
+	
+	private String usuario;
 
 	public StatusVisita() {
 	}
@@ -57,6 +59,14 @@ public class StatusVisita implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getUsuario() {
+		return this.usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 }
