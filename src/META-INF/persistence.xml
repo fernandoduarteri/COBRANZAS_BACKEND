@@ -13,5 +13,6 @@
 	    <class>model.TipoCliente1</class>
 	    <class>model.StatusVisita</class>
 	    <class>model.OrdenCompra</class>
+	    <class>model.CierreApp</class>
  </persistence-unit>
 </persistence>

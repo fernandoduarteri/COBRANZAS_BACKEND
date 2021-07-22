@@ -1,12 +1,8 @@
 package persist;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 import java.util.logging.Logger;
-
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -19,7 +15,7 @@ public abstract class JPAEntity<T> {
 
 	private Logger log = Logger.getLogger(getClass().getName());
 	public EntityManager em;
-
+	private EntityManagerFactory factory;
 	public JPAEntity(Class<T> entityClass) {
 		this.entityClass = entityClass;
 		this.getEntityManager();
@@ -31,8 +27,9 @@ public abstract class JPAEntity<T> {
 
 	public EntityManager getEntityManager() {
 		if (em == null) {
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("WebServicesCobranza");
+		    factory = Persistence.createEntityManagerFactory("WebServicesCobranza");
 			em = factory.createEntityManager();
+			
 		}
 		return em;
 	}
@@ -119,45 +116,19 @@ public abstract class JPAEntity<T> {
 			em.close();
 		}
 		return getList;
-		
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Vector<HashMap> findAllNative(String query) throws Exception {
-		List<Object[]> getList = new ArrayList<Object[]> ();
-		HashMap<String, Object> mapconvert;
-		Vector <HashMap> resultList = new Vector<HashMap>();
+	@SuppressWarnings({ "unchecked" })
+	public List<Object[]> findAllNative(String query) throws Exception {
 		try {
-
+			if(!em.isOpen()) {
+				em = factory.createEntityManager();
+			}
 			EntityTransaction tx;
 			tx = em.getTransaction();
 			tx.begin();
 			Query q = em.createNativeQuery(query);
-			getList = (List<Object[]>) q.getResultList();
-			 for(Object[] q1 : getList){
-				 mapconvert = new HashMap<String,Object>();
-				 mapconvert.put("venc_permitido",q1[0]);
-				 mapconvert.put("ld_permitida",q1[1]);
-				 mapconvert.put("id_cliente",q1[2]);
-				 mapconvert.put("id",q1[3]);
-				 mapconvert.put("observaciones",q1[4]);
-				 mapconvert.put("monto",q1[5]);
-				 mapconvert.put("cuotas",q1[6]);
-				 mapconvert.put("adeudado",q1[7]);
-				 mapconvert.put("cedula",q1[8]);
-				 mapconvert.put("id_cuota",q1[9]);
-				 mapconvert.put("numero",q1[10]);
-				 mapconvert.put("nombre",q1[11]);
-				 mapconvert.put("apellidos",q1[12]);
-				 mapconvert.put("monto_cuota",q1[13]);
-				 mapconvert.put("fecha_vencimiento",q1[14]);
-				 mapconvert.put("monto_total",q1[15]);
-				 resultList.add(mapconvert);
-
-			        
-			        
-			     }
-			
+			return (List<Object[]>) q.getResultList();
 		} catch (Exception e) {
 			log.info("Metodo List Exception: " + e);
 			throw new Exception(e.getMessage());
@@ -165,7 +136,6 @@ public abstract class JPAEntity<T> {
 		finally {
 			em.close();
 		}
-		return resultList;
 	}
 	
 	public T getLogin(String query) throws Exception {
@@ -182,8 +152,7 @@ public abstract class JPAEntity<T> {
 		} 
 		finally {
 			em.close();
-		}
-		
+		}	
 	}
 	
 	public T getOne(String query) throws Exception {
@@ -201,7 +170,6 @@ public abstract class JPAEntity<T> {
 		finally {
 			em.close();
 		}
-		
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -258,54 +226,4 @@ public abstract class JPAEntity<T> {
 		}
 		return cuenta;
 	}
-
-//	public void guardar(Object object) throws Exception {
-//		try {
-//			EntityManager em = this.getEntityManager();
-//			EntityTransaction tx;
-//			tx = em.getTransaction();
-//			tx.begin();
-//			em.persist(object);
-//			tx.commit();
-//		} catch (Exception e) {
-//			log.info("Metodo Guardar Exception: " + e);
-//			throw new Exception(e);
-//		}
-//	}
-//	
-//	
-//	public void editar(Object object) throws Exception {
-//		try {
-//			EntityManager em = this.getEntityManager();
-//			EntityTransaction tx;
-//			tx = em.getTransaction();
-//			tx.begin();
-//			em.merge(object);
-//			tx.commit();
-//		} catch (Exception e) {
-//			log.info("Metodo Editar Exception: " + e);
-//			throw new Exception(e.getMessage());
-//		} 
-//	}
-//	
-//	public List<?> findAll(String table) throws Exception {
-//		EntityManager em = this.getEntityManager();
-//		try {
-//			return (List<?>) em.createNamedQuery(table + ".findAll").getResultList();
-//		}catch(Exception e) {
-//			log.info("Metodo Listar Exception: " + e);
-//			throw new Exception(e.getMessage());
-//		}
-//	}
-//	
-//	public void getOne(String table, int id) throws Exception{
-//		EntityManager em = this.getEntityManager();
-//		try {
-//			em.createNamedQuery(table + ".findOne" ,1);
-//		}catch (Exception e){
-//			log.info("Metodo getOne Exception: " + e);
-//			throw new Exception(e.getMessage());
-//		}
-//	}
-
 }

@@ -1,7 +1,5 @@
 package dao;
 
-import com.google.gson.JsonObject;
-
 import Utilidades.Constantes;
 import model.ObjectReturn;
 import model.StatusVisita;
@@ -27,6 +25,11 @@ public class StatusVisitasDAO extends JPAEntity<StatusVisita> {
 				objReturn.setExito(Constantes.FLAG_EXITO_FALLA);
 				objReturn.setTotal(0);
 			}
+		
+	}
+
+	public void getNoPago(ObjectReturn objReturn) {
+		
 		
 	}
 }

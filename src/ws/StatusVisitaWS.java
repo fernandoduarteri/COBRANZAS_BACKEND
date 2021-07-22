@@ -78,7 +78,7 @@ public class StatusVisitaWS {
 	}
 
 	
-	@Path("/getStatus")
+	@Path("/getNoPago")
 	@POST
 	@Consumes(javax.ws.rs.core.MediaType.APPLICATION_JSON)
 	@Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
@@ -107,14 +107,11 @@ public class StatusVisitaWS {
 		// [Fin] Validando JSON Enviado en cuanto a formato --
 				
 		// [Inicio] Realizando el servicio setStatusVisita
-				StatusVisita statusVisita = objJSON.fromJson(objJsonObject,StatusVisita.class);
-				Date date = new Date();  
-		        Timestamp ts=new Timestamp(date.getTime());  
-		        statusVisita.setFecha(ts);
-				objReturn.setData(statusVisita);
+				
+				objReturn.setData(objJsonObject);
 				try {
 					StatusVisitaServices objStatusVisitaService = new StatusVisitaServices();
-					objStatusVisitaService.setStatus(objReturn);
+					objStatusVisitaService.getNoPago(objReturn);
 					if (!objReturn.getExito()) {
 						throw new Exception(objReturn.getMensaje());
 					}

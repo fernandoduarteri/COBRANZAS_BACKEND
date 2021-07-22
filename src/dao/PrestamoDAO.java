@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import com.google.gson.JsonObject;
@@ -45,7 +47,7 @@ public class PrestamoDAO extends JPAEntity {
 			}
 		
 	}
-	
+	@SuppressWarnings("unchecked")
 	public void getPrestamoCliente(ObjectReturn objReturn) {
 		JsonObject objJsonObject;
 		objJsonObject = (JsonObject) objReturn.getData();
@@ -61,12 +63,35 @@ public class PrestamoDAO extends JPAEntity {
 				+ "               on cc.id = p.cliente"
 				+ "                where cc.cedula="+cedula+ " and p.pagado = 0 and c.pagada = 0 group by p.id";
 		try {
-			objReturn.setData(super.findAllNative(query));
 			
-			Vector arry  = (Vector) objReturn.getData();
+			
+			HashMap<String, Object> mapconvert;
+			Vector <HashMap> resultList = new Vector<HashMap>();
+			List<Object[]> getList  = super.findAllNative(query);
+			for(Object[] q1 : getList){
+				 mapconvert = new HashMap<String,Object>();
+				 mapconvert.put("venc_permitido",q1[0]);
+				 mapconvert.put("ld_permitida",q1[1]);
+				 mapconvert.put("id_cliente",q1[2]);
+				 mapconvert.put("id",q1[3]);
+				 mapconvert.put("observaciones",q1[4]);
+				 mapconvert.put("monto",q1[5]);
+				 mapconvert.put("cuotas",q1[6]);
+				 mapconvert.put("adeudado",q1[7]);
+				 mapconvert.put("cedula",q1[8]);
+				 mapconvert.put("id_cuota",q1[9]);
+				 mapconvert.put("numero",q1[10]);
+				 mapconvert.put("nombre",q1[11]);
+				 mapconvert.put("apellidos",q1[12]);
+				 mapconvert.put("monto_cuota",q1[13]);
+				 mapconvert.put("fecha_vencimiento",q1[14]);
+				 mapconvert.put("monto_total",q1[15]);
+				 resultList.add(mapconvert);
+			     }
+			objReturn.setData(resultList);
 			objReturn.setMensaje("Exito");
 			objReturn.setExito(Constantes.FLAG_EXITO_EXITO);
-			objReturn.setTotal(arry.size());
+			objReturn.setTotal(resultList.size());
 		}
 		catch(Exception e) {
 				objReturn.setData("");
