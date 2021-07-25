@@ -20,6 +20,7 @@ public class ApplicationConfig extends javax.ws.rs.core.Application {
 	     */
 	    private void addRestResourceClasses(Set<Class<?>> resources) {
 	        resources.add(ws.LoginWS.class);
+	        resources.add(ws.CierreWS.class);
 	        
 	    }
 

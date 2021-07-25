@@ -1,6 +1,9 @@
 package dao;
 
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -64,6 +67,31 @@ public class CierreDAO extends JPAEntity<CierreApp> {
 				objReturn.setTotal(0);
 			}
 		
+	}
+	
+	public void actualizarUltimoCierre(ObjectReturn objReturn) {
+		CierreApp cierreApp = (CierreApp)objReturn.getData();
+		String query = "UPDATE cierre_app SET estado='C' WHERE id="+ cierreApp.getId();
+		CierreApp nuevoCierre = new CierreApp();
+		nuevoCierre.setUsuario(cierreApp.getUsuario());
+		nuevoCierre.setFechaInicio(cierreApp.getFechaFinal());
+		nuevoCierre.setFechaFinal(new Timestamp(new Date().getTime()));
+		nuevoCierre.setEstado("P");
+		
+		try {
+			super.updateNative(query);
+			super.create(nuevoCierre);
+			objReturn.setData("Cierre actualizado realizado con exito");
+			objReturn.setMensaje("Exito");
+			objReturn.setExito(Constantes.FLAG_EXITO_EXITO);
+			objReturn.setTotal(1);
+		}
+		catch(Exception e) {
+				objReturn.setData("");
+				objReturn.setMensaje(e.getMessage());
+				objReturn.setExito(Constantes.FLAG_EXITO_FALLA);
+				objReturn.setTotal(0);
+			}
 	}
 	
 }

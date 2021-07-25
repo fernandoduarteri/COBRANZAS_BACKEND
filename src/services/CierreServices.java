@@ -13,5 +13,9 @@ public class CierreServices {
 		// TODO Auto-generated method stub
 		objCierreDao.getUltimoCierre(objReturn);
 	}
-
+	
+	public void actualizarUltimoCierre(ObjectReturn objReturn) {
+		// TODO Auto-generated method stub
+		objCierreDao.actualizarUltimoCierre(objReturn);
+	}
 }

@@ -36,10 +36,13 @@ public abstract class JPAEntity<T> {
 
 	public void create(T entity) throws Exception {
 		try {
+			if(!em.isOpen()) {
+			em = factory.createEntityManager();
+		}
 			EntityTransaction tx;
 			tx = em.getTransaction();
 			tx.begin();
-			em.persist(entity);
+			em.persist(entity);		
 			tx.commit();
 		} catch (Exception e) {
 			log.info("Metodo create Exception: " + e);
@@ -52,7 +55,9 @@ public abstract class JPAEntity<T> {
 
 	public void edit(T entity) throws Exception {
 		try {
-
+			if(!em.isOpen()) {
+				em = factory.createEntityManager();
+			}
 			EntityTransaction tx;
 			tx = em.getTransaction();
 			tx.begin();
@@ -61,6 +66,9 @@ public abstract class JPAEntity<T> {
 		} catch (Exception e) {
 			log.info("Metodo edit Exception: " + e);
 			throw new Exception(e.getMessage());
+		}
+		finally {
+			em.close();
 		}
 	}
 
@@ -129,6 +137,27 @@ public abstract class JPAEntity<T> {
 			tx.begin();
 			Query q = em.createNativeQuery(query);
 			return (List<Object[]>) q.getResultList();
+		} catch (Exception e) {
+			log.info("Metodo List Exception: " + e);
+			throw new Exception(e.getMessage());
+		} 
+		finally {
+			em.close();
+		}
+	}
+	
+	@SuppressWarnings({ "unchecked" })
+	public boolean updateNative(String query) throws Exception {
+		try {
+			if(!em.isOpen()) {
+				em = factory.createEntityManager();
+			}
+			EntityTransaction tx;
+			tx = em.getTransaction();
+			tx.begin();
+			Query q= em.createNativeQuery(query);
+			q.executeUpdate();
+			return true;
 		} catch (Exception e) {
 			log.info("Metodo List Exception: " + e);
 			throw new Exception(e.getMessage());
