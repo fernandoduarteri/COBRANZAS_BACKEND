@@ -75,7 +75,7 @@ public class CierreDAO extends JPAEntity<CierreApp> {
 		CierreApp nuevoCierre = new CierreApp();
 		nuevoCierre.setUsuario(cierreApp.getUsuario());
 		nuevoCierre.setFechaInicio(cierreApp.getFechaFinal());
-		nuevoCierre.setFechaFinal(new Timestamp(new Date().getTime()));
+		//nuevoCierre.setFechaFinal(new Timestamp(new Date().getTime()));
 		nuevoCierre.setEstado("P");
 		
 		try {

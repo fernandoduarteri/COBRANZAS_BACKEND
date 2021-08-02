@@ -17,6 +17,11 @@ ClientesDAO objClienteDao = new ClientesDAO(Cliente.class);
 		objClienteDao.getClientesFiltered(objReturn);
 	}
 	
+	public void getSituacionCliente(ObjectReturn objReturn) throws Exception{
+		
+		objClienteDao.getSituacionCliente(objReturn);
+	}
+	
 	
 
 }

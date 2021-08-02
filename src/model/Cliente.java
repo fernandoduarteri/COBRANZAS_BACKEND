@@ -12,6 +12,24 @@ import java.math.BigInteger;
 @Entity
 @Table(name="cliente")
 @NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c")
+@NamedStoredProcedureQuery(
+	    name = "situacion_cliente", 
+	    procedureName = "situacion_cliente", 
+	    parameters = { 
+	        @StoredProcedureParameter(mode = ParameterMode.IN, type = BigInteger.class, name = "var_id"), 
+	        @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "var_cedula"), 
+	        @StoredProcedureParameter(mode = ParameterMode.OUT, type = BigInteger.class, name = "var_limite_credito"), 
+	        @StoredProcedureParameter(mode = ParameterMode.OUT, type = Double.class, name = "var_total"), 
+	        @StoredProcedureParameter(mode = ParameterMode.OUT, type = Double.class, name = "var_saldo_vencido"), 
+	        @StoredProcedureParameter(mode = ParameterMode.OUT, type = Double.class, name = "var_saldo_no_vencido"), 
+	        @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "var_estado"), 
+	        @StoredProcedureParameter(mode = ParameterMode.OUT, type = Double.class, name = "var_entrega_minima"), 
+	        @StoredProcedureParameter(mode = ParameterMode.OUT, type = Double.class, name = "var_disponible_potencial_en_orden"), 
+	        @StoredProcedureParameter(mode = ParameterMode.OUT, type = Double.class, name = "var_servicio_diario_total"), 
+	        @StoredProcedureParameter(mode = ParameterMode.OUT, type = Double.class, name = "var_linea_directa_permitida"), 
+	        @StoredProcedureParameter(mode = ParameterMode.OUT, type = Double.class, name = "var_monto_ord_pendientes")
+	    }
+	)
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 

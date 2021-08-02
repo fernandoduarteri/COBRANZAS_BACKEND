@@ -16,7 +16,9 @@ import com.google.gson.JsonSyntaxException;
 import Utilidades.Constantes;
 import model.ObjectReturn;
 import model.OrdenCompra;
+import model.ReciboPendiente;
 import services.OrdenCompraServices;
+import services.ReciboPendienteServices;
 
 @Path("ordencompra")
 public class OrdenCompraWS {
@@ -57,10 +59,28 @@ public class OrdenCompraWS {
 		        c.setTime(datenow);
 		        c.add(Calendar.DATE, 30);
 		        ordenCompra.setFechaVencimiento(c.getTime());
-				objReturn.setData(ordenCompra);
+				
 				try {
-					OrdenCompraServices objOrdenCompraService = new OrdenCompraServices();
-					objOrdenCompraService.setOrdenCompra(objReturn);
+					if(ordenCompra.getEstado().equalsIgnoreCase("R")) {
+						objReturn.setData(ordenCompra);
+						OrdenCompraServices objOrdenCompraService = new OrdenCompraServices();
+						objOrdenCompraService.setOrdenCompra(objReturn);
+					}
+					else {
+						
+						ReciboPendiente rp = new ReciboPendiente();
+						rp.setCedulaCliente(ordenCompra.getCedulaCliente());
+						rp.setCodigoValidacion(ordenCompra.getCodigoValidacion());
+						rp.setEstado("R");
+						rp.setFechaOtorgada(ordenCompra.getFechaOtorgada());
+						rp.setFechaVencimiento(ordenCompra.getFechaVencimiento());
+						rp.setMonto(ordenCompra.getMonto());
+						objReturn.setData(rp);
+						ReciboPendienteServices objOrdenCompraService = new ReciboPendienteServices();
+						objOrdenCompraService.setOrdenCompra(objReturn);
+					}
+					
+					
 					if (!objReturn.getExito()) {
 						throw new Exception(objReturn.getMensaje());
 					}

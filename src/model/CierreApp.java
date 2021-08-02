@@ -4,14 +4,13 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the cierre_app database table.
  * 
  */
 @Entity
-@Table(name="cierre_app")
-@NamedQuery(name="CierreApp.findAll", query="SELECT c FROM CierreApp c")
+@Table(name = "cierre_app")
+@NamedQuery(name = "CierreApp.findAll", query = "SELECT c FROM CierreApp c")
 public class CierreApp implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -20,10 +19,10 @@ public class CierreApp implements Serializable {
 
 	private String estado;
 
-	@Column(name="fecha_final")
+	@Column(name = "fecha_final")
 	private Timestamp fechaFinal;
 
-	@Column(name="fecha_inicio")
+	@Column(name = "fecha_inicio")
 	private Timestamp fechaInicio;
 
 	private String usuario;

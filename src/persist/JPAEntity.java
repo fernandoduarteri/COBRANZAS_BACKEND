@@ -1,5 +1,6 @@
 package persist;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -135,8 +136,54 @@ public abstract class JPAEntity<T> {
 			EntityTransaction tx;
 			tx = em.getTransaction();
 			tx.begin();
+			System.out.println("1");
 			Query q = em.createNativeQuery(query);
+			System.out.println(q.getResultList().size());
 			return (List<Object[]>) q.getResultList();
+		} catch (Exception e) {
+			log.info("Metodo List Exception: " + e);
+			throw new Exception(e.getMessage());
+		} 
+		finally {
+			em.close();
+		}
+	}
+	
+	@SuppressWarnings({ "unchecked" })
+	public BigInteger findAllNative2(String query) throws Exception {
+		try {
+			if(!em.isOpen()) {
+				em = factory.createEntityManager();
+			}
+			EntityTransaction tx;
+			tx = em.getTransaction();
+			tx.begin();
+			System.out.println("1");
+			Query q = em.createNativeQuery(query);
+			System.out.println("vamos");
+			return (BigInteger) q.getSingleResult();
+		} catch (Exception e) {
+			log.info("Metodo List Exception: " + e);
+			throw new Exception(e.getMessage());
+		} 
+		finally {
+			em.close();
+		}
+	}
+	
+	@SuppressWarnings({ "unchecked" })
+	public Object onlyOne(String query) throws Exception {
+		try {
+			if(!em.isOpen()) {
+				em = factory.createEntityManager();
+			}
+			EntityTransaction tx;
+			tx = em.getTransaction();
+			tx.begin();
+			System.out.println("1");
+			Query q = em.createNativeQuery(query);
+			System.out.println(q);
+			return q.getSingleResult();
 		} catch (Exception e) {
 			log.info("Metodo List Exception: " + e);
 			throw new Exception(e.getMessage());
@@ -255,4 +302,5 @@ public abstract class JPAEntity<T> {
 		}
 		return cuenta;
 	}
+
 }
