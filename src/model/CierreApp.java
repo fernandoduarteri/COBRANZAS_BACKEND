@@ -70,4 +70,9 @@ public class CierreApp implements Serializable {
 		this.usuario = usuario;
 	}
 
+	@Override
+	public String toString() {
+		return "CierreApp [id=" + id + ", estado=" + estado + ", fechaFinal=" + fechaFinal + ", fechaInicio=" + fechaInicio + ", usuario=" + usuario + "]";
+	}
+
 }
