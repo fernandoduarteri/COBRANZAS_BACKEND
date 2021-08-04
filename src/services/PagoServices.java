@@ -84,7 +84,7 @@ PagoDAO objPagoDao = new PagoDAO (Pago.class);
 					axObjReturn.setData(pagoMultiple);
 					objPagoDao.hacerPago(axObjReturn);
 					saldo = saldo - cuota;
-					retorno = retorno + "Cuota "+ resultPrestamo.get("numero") +"/" + resultPrestamo.get("cuotas") + " $"+pago.getCuotaBean().getMontoCuota() +"\n";
+					retorno = retorno + "Cuota "+ resultPrestamo.get("numero") +"/" + resultPrestamo.get("cuotas") + " $"+cuota +"\n";
 				}
 			}
 		}else {
