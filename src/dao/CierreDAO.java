@@ -2,6 +2,7 @@ package dao;
 
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,7 +49,8 @@ public class CierreDAO extends JPAEntity<CierreApp> {
 				 mapconvert1.put("monto",q1[1]);
 				 mapconvert1.put("idCuota",q1[2]);
 				 mapconvert1.put("nombre",q1[3]);
-				 mapconvert1.put("fechaPago",q1[4]);
+				 System.out.println("la fecha: " + q1[4]);
+				 mapconvert1.put("fechaPago",String.valueOf(q1[4]));
 				 montoTotal = montoTotal +(double) q1[1];
 				 resultList1.add(mapconvert1);
 			     }
@@ -71,10 +73,14 @@ public class CierreDAO extends JPAEntity<CierreApp> {
 	
 	public void actualizarUltimoCierre(ObjectReturn objReturn) {
 		CierreApp cierreApp = (CierreApp)objReturn.getData();
-		String query = "UPDATE cierre_app SET estado='C' WHERE id="+ cierreApp.getId();
+		System.out.println("llegamos 2");
+		SimpleDateFormat pars = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();  
+	    System.out.println(pars.format(date));
+		String query = "UPDATE cierre_app SET estado='C', fecha_final='"+pars.format(date)+"' WHERE id="+ cierreApp.getId();
 		CierreApp nuevoCierre = new CierreApp();
 		nuevoCierre.setUsuario(cierreApp.getUsuario());
-		nuevoCierre.setFechaInicio(cierreApp.getFechaFinal());
+		nuevoCierre.setFechaInicio(new Timestamp(new Date().getTime()));
 		//nuevoCierre.setFechaFinal(new Timestamp(new Date().getTime()));
 		nuevoCierre.setEstado("P");
 		

@@ -87,7 +87,6 @@ public class CierreWS {
 	@Consumes(javax.ws.rs.core.MediaType.APPLICATION_JSON)
 	@Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
 	public String actualizarUltimoCierre(String strData) {
-		
 		// [Inicio] Declaracion de variables --
 				ObjectReturn objReturn = new ObjectReturn();
 				String resultado = "";
@@ -112,11 +111,8 @@ public class CierreWS {
 				
 		// [Inicio] Realizando el servicio setStatusVisita
 				CierreApp cierreApp = objJSON.fromJson(objJsonObject, CierreApp.class);
-				SimpleDateFormat pars = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss aa");
-				try {
-					Date d = pars.parse(objJsonObject.get("fechaInicio").getAsString());
-					cierreApp.setFechaInicio(new Timestamp(d.getTime()));
-					cierreApp.setFechaFinal(new Timestamp(d.getTime()));
+				try 
+				{
 					objReturn.setData(cierreApp);
 					CierreServices objCierreService = new CierreServices();
 					objCierreService.actualizarUltimoCierre(objReturn);
